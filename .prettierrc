@@ -17,8 +17,8 @@
     "^@/types/(.*)$",
     "^@/utils/(.*)$",
     "^@/api/(.*)$",
-    "^../(.*)$",
-    "^./(.*)$"
+    "^../(.*)",
+    "^./(.*)"
   ],
   "importOrderSeparation": true,
   "importOrderSortSpecifiers": true

@@ -64,5 +64,4 @@ export const ProductService = {
       method: 'DELETE'
     })
   }
-  3.32
 }

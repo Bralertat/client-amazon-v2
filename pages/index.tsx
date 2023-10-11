@@ -1,3 +1,7 @@
-export default function HomePage() {
-  return <h1 className='text-3xl font-bold underline'>Hello world!</h1>
+import Home from '@/screens/home/Home'
+import { NextPage } from 'next'
+
+const HomePage: NextPage = () => {
+  return <Home />
 }
+export default HomePage
