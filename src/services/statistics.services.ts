@@ -1,4 +1,4 @@
-import { instance } from '@/api/api.interceptor'
+import { authAxios } from '@/api/api.interceptor'
 
 const STATISTICS = 'statistics'
 
@@ -9,7 +9,7 @@ export type TypeStatisticsResponse = {
 
 export const StatisticService = {
   async getMain() {
-    return instance<TypeStatisticsResponse>({
+    return authAxios<TypeStatisticsResponse>({
       url: `${STATISTICS}/main`,
       method: 'GET'
     })

@@ -1,11 +1,11 @@
-import { instance } from '@/api/api.interceptor'
+import { authAxios } from '@/api/api.interceptor'
 import { IOrder } from '@/types/order.interface'
 
 const ORDERS = 'orders'
 
 export const OrderService = {
   async getAll() {
-    return instance<IOrder[]>({
+    return authAxios<IOrder[]>({
       url: ORDERS,
       method: 'GET'
     })

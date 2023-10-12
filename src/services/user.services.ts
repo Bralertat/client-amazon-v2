@@ -1,4 +1,4 @@
-import { instance } from '@/api/api.interceptor'
+import { authAxios } from '@/api/api.interceptor'
 import { IFullUser, IUser } from '@/types/user.interface'
 
 const USERS = 'users'
@@ -13,14 +13,14 @@ type TypeData = {
 
 export const UserService = {
   async getProfile() {
-    return instance<IFullUser>({
+    return authAxios<IFullUser>({
       url: `${USERS}/profile`,
       method: 'GET'
     })
   },
 
   async updateProfile(data: TypeData) {
-    return instance<IUser>({
+    return authAxios<IUser>({
       url: `${USERS}/profile`,
       method: 'PUT',
       data
@@ -28,7 +28,7 @@ export const UserService = {
   },
 
   async toggleFavorite(productId: string | number) {
-    return instance<IUser>({
+    return authAxios<IUser>({
       url: `${USERS}/profile/favorites/${productId}`,
       method: 'PATCH'
     })
