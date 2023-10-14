@@ -10,11 +10,12 @@ import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai'
 const FavoriteButton: FC<{ productId: number }> = ({ productId }) => {
   const { profile } = useProfile()
 
-  const { invalidateQueries } = useQueryClient()
+  const queryClient = useQueryClient()
+  // ???на сервер шлет а у себя не меняет имхо нужно слать на сервер и при успшном респонсе ререндерить
   const { mutate } = useMutation(['toggle favorite'], () =>
     UserService.toggleFavorite(productId), {
       onSuccess() {
-        invalidateQueries(['get profile'])
+        queryClient.invalidateQueries(['get profile'])
       }
     }
   )
@@ -25,7 +26,7 @@ const FavoriteButton: FC<{ productId: number }> = ({ productId }) => {
 
   return (
     <div>
-      <button onClick={() => mutate()}>
+      <button onClick={() => mutate()} className='text-primary' >
         {isExist ? <AiFillHeart /> : <AiOutlineHeart />}
       </button>
     </div>

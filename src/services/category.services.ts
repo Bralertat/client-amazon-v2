@@ -1,11 +1,11 @@
-import { authAxios } from '@/api/api.interceptor'
+import { authAxios, guestAxios } from '@/api/api.interceptor'
 import { ICategory } from '@/types/category.interface'
 
 const CATEGORIES = 'categories'
 
 export const CategoryService = {
   async getAll() {
-    return authAxios<ICategory[]>({
+    return guestAxios<ICategory[]>({
       url: CATEGORIES,
       method: 'GET'
     })
@@ -19,7 +19,7 @@ export const CategoryService = {
   },
 
   async getBySlug(slug: string) {
-    return authAxios<ICategory>({
+    return guestAxios<ICategory>({
       url: `${CATEGORIES}/by-slug/${slug}`,
       method: 'GET'
     })

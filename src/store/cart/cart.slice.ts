@@ -15,6 +15,7 @@ export const cartSlice = createSlice({
   reducers: {
     addToCart: (state, action: PayloadAction<IAddToCartPayload>) => {
       const isExist = state.items.some(
+        //item.product???
         item => item.product.id === action.payload.product.id
       )
 
@@ -22,7 +23,7 @@ export const cartSlice = createSlice({
         state.items.push({ ...action.payload, id: state.items.length })
     },
     removeFromCart: (state, action: PayloadAction<{ id: number }>) => {
-      state.items = state.items.filter(item => item.id === action.payload.id)
+      state.items = state.items.filter(item => item.id !== action.payload.id)
     },
 
     changeQuantity: (state, action: PayloadAction<IChangeQuantityPayload>) => {

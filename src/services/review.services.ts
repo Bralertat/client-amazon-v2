@@ -1,4 +1,4 @@
-import { authAxios } from '@/api/api.interceptor'
+import { authAxios, guestAxios } from '@/api/api.interceptor'
 import { IReview } from '@/types/review.interface'
 
 const REVIEWS = 'reviews'
@@ -10,14 +10,14 @@ type TypeData = {
 
 export const ReviewService = {
   async getAll() {
-    return authAxios<IReview[]>({
+    return guestAxios<IReview[]>({
       url: REVIEWS,
       method: 'GET'
     })
   },
 
   async getAverageByProduct(productId: string | number) {
-    return authAxios<number>({
+    return guestAxios<number>({
       url: `${REVIEWS}/average-by-product/${productId}`,
       method: 'GET'
     })
