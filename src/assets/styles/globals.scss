@@ -15,12 +15,31 @@ body {
   opacity: 0.2 !important;
 }
 .open-menu {
-  opacity: 1;
-  visibility: visible;
-  transition: opacity .2s ease-in-out;
+  animation: inAnimation 250ms ease-in;
 }
 .close-menu {
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity .2s ease-in-out, visibility 0.2s ease-in-out;
+  //важно чтоб размонтировался до конца анимации
+  animation: outAnimation 270ms ease-out;
+  animationFillMode: forwards;
+}
+
+@keyframes inAnimation {
+  0% {
+    opacity: 0;
+    visibility: hidden;
+  }
+  100% {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+@keyframes outAnimation {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    visibility: hidden;
+  }
 }
