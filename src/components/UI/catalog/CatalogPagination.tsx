@@ -1,13 +1,13 @@
-import { FC, useState } from 'react'
-import { IProduct, TypePaginationProducts } from '@/types/product.interface'
-import ProductItem from './product-item/ProductItem'
-import Loader from '../Loader'
-import Heading from '../Heading'
-import SortDropdown from './SortDropdown'
-import Button from '../button/Button'
+import { ProductService } from '@/services/product/product.service'
 import { EnumProductSort } from '@/services/product/product.types'
+import { TypePaginationProducts } from '@/types/product.interface'
 import { useQuery } from '@tanstack/react-query'
-import { ProductService } from '@/services/product/product.services'
+import { FC, useState } from 'react'
+import Heading from '../Heading'
+import Loader from '../Loader'
+import Button from '../button/Button'
+import SortDropdown from './SortDropdown'
+import ProductItem from './product-item/ProductItem'
 
 interface ICatalogPagination {
   data: TypePaginationProducts

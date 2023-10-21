@@ -1,9 +1,8 @@
 import Meta from '@/components/UI/Meta'
 import Catalog from '@/components/UI/catalog/Catalog'
 import Layout from '@/components/UI/layout/Layout'
-import { useProfile } from '@/hooks/useProfile'
-import { CategoryService } from '@/services/category.services'
-import { ProductService } from '@/services/product/product.services'
+import { CategoryService } from '@/services/category.service'
+import { ProductService } from '@/services/product/product.service'
 import { ICategory } from '@/types/category.interface'
 import { IProduct } from '@/types/product.interface'
 import { GetStaticPaths, GetStaticProps, NextPage } from 'next'
@@ -21,7 +20,7 @@ const CategoryPage: NextPage<{ products: IProduct[]; category: ICategory }> = ({
   )
 }
 
-export const getStaticPath: GetStaticPaths = async () => {
+export const getStaticPaths: GetStaticPaths = async () => {
   const categories = await CategoryService.getAll()
 
   const paths = categories.data.map(category => {

@@ -1,11 +1,12 @@
 import Home from '@/screens/home/Home'
-import { ProductService } from '@/services/product/product.services'
+import { ProductService } from '@/services/product/product.service'
 import { TypePaginationProducts, TypeProducts } from '@/types/product.interface'
 import { GetStaticProps, NextPage } from 'next'
 
 const HomePage: NextPage<TypePaginationProducts> = ({ products, length }) => {
   return <Home products={products} length={length} />
 }
+
 
 export const getStaticProps: GetStaticProps<
   TypePaginationProducts

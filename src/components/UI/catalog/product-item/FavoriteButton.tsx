@@ -1,9 +1,6 @@
-import { useActions } from '@/hooks/useActions'
-import { useCart } from '@/hooks/useCart'
 import { useProfile } from '@/hooks/useProfile'
-import { UserService } from '@/services/user.services'
-import { IProduct } from '@/types/product.interface'
-import { useMutation, useQueries, useQueryClient } from '@tanstack/react-query'
+import { UserService } from '@/services/user.service'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { FC } from 'react'
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai'
 
@@ -15,6 +12,7 @@ const FavoriteButton: FC<{ productId: number }> = ({ productId }) => {
   const { mutate } = useMutation(['toggle favorite'], () =>
     UserService.toggleFavorite(productId), {
       onSuccess() {
+        //сюда optimistic ui
         queryClient.invalidateQueries(['get profile'])
       }
     }

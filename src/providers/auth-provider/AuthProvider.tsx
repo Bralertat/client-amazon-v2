@@ -7,6 +7,7 @@ import { useRouter } from 'next/router'
 import { getAccessToken } from '@/services/auth/auth.helper'
 import Cookies from 'js-cookie'
 
+// этот компонент подгрузится lazy и только на клиенте
 const DynamicCheckRole = dynamic(() => import('./CheckRole'), { ssr: false })
 
 const AuthProvider: FC<PropsWithChildren<TypeComponentAuthFields>> = ({
@@ -15,8 +16,8 @@ const AuthProvider: FC<PropsWithChildren<TypeComponentAuthFields>> = ({
 }) => {
   const { user } = useAuth()
   const { checkAuth, logout } = useActions()
-
   const { pathname } = useRouter()
+
   useEffect(() => {
     const accessToken = getAccessToken()
     if (accessToken) checkAuth()
@@ -26,10 +27,14 @@ const AuthProvider: FC<PropsWithChildren<TypeComponentAuthFields>> = ({
     if (!refreshToken && user) logout()
   }, [pathname])
 
+  //идея в том чтоб грузить страницы нуждающиеся в авторизации только на клиенте
   return isOnlyUser ? (
-    <DynamicCheckRole Component={{ isOnlyUser }}>{children}</DynamicCheckRole>
+    //динамично то есть работает только на клиенте
+    <DynamicCheckRole Component={{ isOnlyUser }}> {children}</DynamicCheckRole>
   ) : (
-    <>{children}</>
+    // <>{children}</>
+    //это будет работать и на сервере
+    children
   )
 }
 

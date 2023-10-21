@@ -1,4 +1,5 @@
 import Heading from '@/components/UI/Heading'
+import Loader from '@/components/UI/Loader'
 import Meta from '@/components/UI/Meta'
 import Button from '@/components/UI/button/Button'
 import Field from '@/components/UI/input/Field'
@@ -7,9 +8,8 @@ import { useAuth } from '@/hooks/useAuth'
 import { IEmailPassword } from '@/store/user/user.interface'
 import { FC, useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
-import { validEmail } from './valid-email'
-import Loader from '@/components/UI/Loader'
 import { useAuthRedirect } from './useAuthRedirect'
+import { validEmail } from './valid-email'
 
 const Auth: FC = () => {
   useAuthRedirect()

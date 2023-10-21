@@ -2,7 +2,7 @@ import Heading from '@/components/UI/Heading'
 import Meta from '@/components/UI/Meta'
 import Layout from '@/components/UI/layout/Layout'
 import { NextPageAuth } from '@/providers/auth-provider/auth-page.types'
-import { OrderService } from '@/services/order.services'
+import { OrderService } from '@/services/order.service'
 import { convertPrice } from '@/utils/convertPrice'
 import { useQuery } from '@tanstack/react-query'
 

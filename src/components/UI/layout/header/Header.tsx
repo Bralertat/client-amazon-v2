@@ -8,7 +8,7 @@ const Header: FC = () => {
     <Link href={'/'}>
       <h1>Logo</h1>
     </Link>
-    {/* <Search/> */}
+    {/* <Search/> */} 
     <div className='flex items-center justify-end gap-10'>
       <Link href='/favorites' className='text-white'>
         <AiOutlineHeart size={28}/>

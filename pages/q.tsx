@@ -1,7 +1,7 @@
 import Meta from '@/components/UI/Meta'
 import Catalog from '@/components/UI/catalog/Catalog'
 import Layout from '@/components/UI/layout/Layout'
-import { ProductService } from '@/services/product/product.services'
+import { ProductService } from '@/services/product/product.service'
 import { useQuery } from '@tanstack/react-query'
 import { NextPage } from 'next'
 import { useRouter } from 'next/router'

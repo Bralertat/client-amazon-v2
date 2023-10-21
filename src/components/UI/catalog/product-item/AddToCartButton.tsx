@@ -8,6 +8,7 @@ const AddToCartButton: FC<{ product: IProduct }> = ({ product }) => {
   const { addToCart, removeFromCart } = useActions()
   const { items } = useCart()
 
+  //ищем по product id
   const currentElement = items.find(
     cartItem => cartItem.product.id === product.id
   )
@@ -18,6 +19,7 @@ const AddToCartButton: FC<{ product: IProduct }> = ({ product }) => {
         className='text-secondary'
         onClick={() =>
           currentElement
+          //а удаляем по корзинному id
             ? removeFromCart({ id: currentElement.id })
             : addToCart({
                 product,

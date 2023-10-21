@@ -1,6 +1,5 @@
 import { errorCatch } from '@/api/api.helper'
-import { UserService } from '@/services/user.services'
-import { IFullUser } from '@/types/user.interface'
+import { UserService } from '@/services/user.service'
 import { useQuery } from '@tanstack/react-query'
 import { useAuth } from './useAuth'
 

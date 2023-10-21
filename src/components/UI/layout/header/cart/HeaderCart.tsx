@@ -1,17 +1,17 @@
+import Button from '@/components/UI/button/Button'
 import SquareButton from '@/components/UI/button/SquareButton'
+import { useActions } from '@/hooks/useActions'
 import { useCart } from '@/hooks/useCart'
 import { useOutside } from '@/hooks/useOutside'
+import { OrderService } from '@/services/order.service'
+import { convertPrice } from '@/utils/convertPrice'
+import { useMutation } from '@tanstack/react-query'
+import cn from 'clsx'
 import { useRouter } from 'next/router'
 import { FC } from 'react'
 import { RiShoppingCartLine } from 'react-icons/ri'
-import cn from 'clsx'
-import CartItem from './cart-item/CartItem'
-import { convertPrice } from '@/utils/convertPrice'
-import Button from '@/components/UI/button/Button'
 import styles from './Cart.module.scss'
-import { useMutation } from '@tanstack/react-query'
-import { OrderService } from '@/services/order.services'
-import { useActions } from '@/hooks/useActions'
+import CartItem from './cart-item/CartItem'
 
 const Cart: FC = () => {
   const { isShow, setIsShow, ref } = useOutside(false)
@@ -48,7 +48,7 @@ const Cart: FC = () => {
         className={cn(
           `absolute top-[4.2rem] w-80 -left-[12.5rem] bg-secondary 
           rounded-xl px-5 py-3 text-sm z-20 text-white`,
-          isShow ? 'open-menu' : 'close-menu'
+          isShow ? 'open-menu' : 'close-menu', console.log('cartt-----') as any
         )}
       >
         <div className='font-normal mb-5 text-lg'>My cart</div>

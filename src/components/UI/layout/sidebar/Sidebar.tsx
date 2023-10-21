@@ -1,6 +1,6 @@
 import { useActions } from '@/hooks/useActions'
 import { useAuth } from '@/hooks/useAuth'
-import { CategoryService } from '@/services/category.services'
+import { CategoryService } from '@/services/category.service'
 import { useQuery } from '@tanstack/react-query'
 import { useRouter } from 'next/router'
 import { FC } from 'react'
@@ -24,8 +24,8 @@ const Sidebar: FC = () => {
 
   return (
     <aside
-      className='bg-secondary flex flex-col justify-between'
-      style={{ height: 'calc(100vh - 91px)' }}
+      className='bg-secondary flex flex-col justify-between h-screen'
+      // style={{ height: 'calc(100vh - 91px)' }}
     >
       <div>
         {isLoading ? (
@@ -37,11 +37,11 @@ const Sidebar: FC = () => {
               {data.map(category => (
                 <li key={category.id}>
                   <Link
-                    href={`/category/</li>${category.slug}`}
+                    href={`/category/${category.slug}`}
                     className={cn(
                       `block text-lg my-3 px-10 hover:text-primary 
                       transition-colors duration-200`,
-                      asPath === `/category/</li>${category.slug}`
+                      asPath === `/category/${category.slug}`
                         ? 'text-primary'
                         : 'text-white'
                     )}

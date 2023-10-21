@@ -16,7 +16,7 @@ const CartActions: FC<{ item: ICartItem }> = ({ item }) => {
           onClick={() => changeQuantity({ id: item.id, type: 'minus' })}
           disabled={quantity === 1}
         >
-          <FiMinus fontsize={12} />
+          <FiMinus fontSize={12} />
         </button>
         <input
           disabled
@@ -27,7 +27,7 @@ const CartActions: FC<{ item: ICartItem }> = ({ item }) => {
         <button
           onClick={() => changeQuantity({ id: item.id, type: 'plus' })}
         >
-          <FiPlus fontsize={12} />
+          <FiPlus fontSize={12} />
         </button>
         <button
           onClick={() => removeFromCart({ id: item.id })}

@@ -20,6 +20,7 @@ export const cartSlice = createSlice({
       )
 
       if (!isExist)
+      //кладем product, quantity, price, и свой корзинный id
         state.items.push({ ...action.payload, id: state.items.length })
     },
     removeFromCart: (state, action: PayloadAction<{ id: number }>) => {

@@ -1,6 +1,4 @@
-import { ReviewService } from '@/services/review.services'
 import { IProduct } from '@/types/product.interface'
-import { useQuery } from '@tanstack/react-query'
 import { FC, useState } from 'react'
 import { Rating } from 'react-simple-star-rating'
 
@@ -10,7 +8,7 @@ const ProductRating: FC<{ product: IProduct }> = ({ product }) => {
   //   () => ReviewService.getAverageByProduct(product.id),
   //   { select: ({ data }) => data }
   // )
-  // рейтинг никто пока не меняет и сыитаем напрямую а не в колбеке
+  // рейтинг никто пока не меняет и считаем напрямую а не в колбеке
   const [rating, setRating] = useState<number>(
     Math.round(
       product.reviews.reduce((acc, review) => acc + review.rating, 0) /

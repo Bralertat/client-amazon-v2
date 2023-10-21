@@ -1,14 +1,15 @@
 import { IProduct } from '@/types/product.interface'
+import { convertPrice } from '@/utils/convertPrice'
+import dynamic from 'next/dynamic'
 import Image from 'next/image'
+import Link from 'next/link'
 import { FC } from 'react'
-import FavoriteButton from './FavoriteButton'
 import AddToCartButton from './AddToCartButton'
 import ProductRating from './ProductRating'
-import dynamic from 'next/dynamic'
-import Link from 'next/link'
-import { convertPrice } from '@/utils/convertPrice'
 
-const DynamicFavoriteButton = dynamic(() => import('./FavoriteButton'))
+const DynamicFavoriteButton = dynamic(() => import('./FavoriteButton'), {
+  ssr: false
+})
 
 const ProductItem: FC<{ product: IProduct }> = ({ product }) => {
   return (
@@ -16,7 +17,7 @@ const ProductItem: FC<{ product: IProduct }> = ({ product }) => {
     <div className='animate-[pulse_.5s_ease-in-out]'>
       <div className='bg-white rounded-xl relative overflow-hidden'>
         <div className='absolute top-2 right-3 z-10'>
-          <FavoriteButton productId={product.id} />
+          <DynamicFavoriteButton productId={product.id} />
           <AddToCartButton product={product} />
         </div>
         <Link href={`/product/${product.slug}`}>
