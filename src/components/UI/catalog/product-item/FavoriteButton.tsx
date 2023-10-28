@@ -1,8 +1,6 @@
 import { useProfile } from '@/hooks/useProfile'
 import { UserService } from '@/services/user.service'
-import { IFullUser } from '@/types/user.interface'
 import {
-  UseQueryResult,
   useMutation,
   useQueryClient
 } from '@tanstack/react-query'
