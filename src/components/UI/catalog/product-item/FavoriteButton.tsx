@@ -13,24 +13,34 @@ const FavoriteButton: FC<{ productId: number }> = ({ productId }) => {
   const { profile } = useProfile()
 
   const queryClient = useQueryClient()
-  // ???на сервер шлет а у себя не меняет имхо нужно слать на сервер и при успшном респонсе ререндерить
-  const { mutate, isLoading, isIdle } = useMutation(
-    ['toggle favorite'],
+  //?на сервер шлет а у себя не меняет имхо нужно слать на сервер и при успшном респонсе ререндерить
+  //сервер не присылает то что нужно
+  const { mutate, isLoading } = useMutation(
+    // ['toggle favorite'], // ключу тут вообще не место и вообще такого ключа нет
+    //ключи создают useQuery, а не useMutation
+
     () => UserService.toggleFavorite(productId),
     {
+      mutationKey: ['get profile'],
       onSuccess() {
-        //сюда optimistic ui
-        queryClient.invalidateQueries(['get profile'])
+        // queryClient.invalidateQueries(['get profile'])
       },
-      onMutate() {
+      //вариант с обновлением кеша на клиенте неполноценными данными
+      async onMutate() {
+        await queryClient.cancelQueries({ queryKey: ['get profile'] })
+        const previousProfile = queryClient.getQueryData(['get profile'])
+
         queryClient.setQueryData(['get profile'], (oldData: any) => {
           const index: number = oldData.data.favorites.findIndex(
             (item: any) => item.id === productId
           )
-          const newFavorites = index === -1 
-            // у нас нет полноценного объекта фаворит чтоб положить в массив
-          ? [...oldData.data.favorites, { id: productId }] 
-          : oldData.data.favorites.filter((_item: any, ind: number) => ind !== index)
+          const newFavorites =
+            index === -1
+              ? // у нас нет полноценного объекта фаворит чтоб положить в массив
+                [...oldData.data.favorites, { id: productId }]
+              : oldData.data.favorites.filter(
+                  (_item: any, ind: number) => ind !== index
+                )
           return {
             ...oldData,
             data: {
@@ -39,7 +49,24 @@ const FavoriteButton: FC<{ productId: number }> = ({ productId }) => {
             }
           }
         })
+        return { previousProfile }
+      },
+      onError: (_err, _variables, context) => {
+        queryClient.setQueryData(['get profile'], context?.previousProfile)
+      },
+      onSettled: async () => {
+        return await queryClient.invalidateQueries(['get profile'])
       }
+
+      /*нужно именно подождать пока выполнится инвалидирующий запрос,
+      только потом статус pending isLoadng уйдет
+      тоже нормально не работает потому что если 2 под ряд нажать, то первое инвалидируется раньше и моргает сердечком а submittedAt в этой версии нет
+      */
+      /*onSettled: async () => {
+        return await queryClient.invalidateQueries(['get profile'], {
+          exact: true
+        })
+      }*/
     }
   )
 
@@ -50,11 +77,15 @@ const FavoriteButton: FC<{ productId: number }> = ({ productId }) => {
   console.log('isloading: ', isLoading, '  isExist: ', isExist)
   return (
     <div>
-      <button onClick={() => mutate()} className='text-primary'>
+      <button disabled={isLoading} onClick={() => mutate()} className='text-primary'>
         {/* работает мигает 2 раза потому что рефетчится профайл обратно
         загорается не тем цветом */}
         {/* {isLoading && (isExist = !isExist)} */}
-        {isExist ? <AiFillHeart /> : <AiOutlineHeart />}
+        {isExist ? (
+          <AiFillHeart className={isLoading && 'opacity-50'} />
+        ) : (
+          <AiOutlineHeart className={isLoading && 'opacity-50'} />
+        )}
       </button>
     </div>
   )
