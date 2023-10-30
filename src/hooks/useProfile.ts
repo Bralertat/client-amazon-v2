@@ -6,9 +6,17 @@ import { useAuth } from './useAuth'
 export const useProfile = () => {
   const { user } = useAuth()
 
-  const { data } = useQuery(['get profile'], () => UserService.getProfile(), {
+  const { data } = useQuery({
+    queryKey: ['get profile'],
+    queryFn: () => {
+      try {
+        const profile = UserService.getProfile()
+        return profile
+      } catch (error) {
+        throw new Error(errorCatch(error))
+      }
+    },
     select: data => data.data,
-    onError: error => console.log(errorCatch(error)),
     enabled: !!user
   })
   return { profile: data }

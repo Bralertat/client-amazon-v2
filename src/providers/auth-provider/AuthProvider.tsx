@@ -1,41 +1,47 @@
-import { FC, PropsWithChildren, useEffect } from 'react'
-import { TypeComponentAuthFields } from './auth-page.types'
-import dynamic from 'next/dynamic'
-import { useAuth } from '@/hooks/useAuth'
+'use client'
+
+import { REFRESH_TOKEN } from '@/constants/token.constants'
 import { useActions } from '@/hooks/useActions'
-import { useRouter } from 'next/router'
+import { useAuth } from '@/hooks/useAuth'
 import { getAccessToken } from '@/services/auth/auth.helper'
 import Cookies from 'js-cookie'
+import { usePathname, useRouter } from 'next/navigation'
+import { FC, PropsWithChildren, useEffect } from 'react'
+import { protectedRoutes } from './protected-routes.data'
+import { ADMIN_PANNEL_URL } from '@/config/url.config'
+import NotFound from '@/app/not-found'
 
-// этот компонент подгрузится lazy и только на клиенте
-const DynamicCheckRole = dynamic(() => import('./CheckRole'), { ssr: false })
-
-const AuthProvider: FC<PropsWithChildren<TypeComponentAuthFields>> = ({
-  Component: { isOnlyUser },
-  children
-}) => {
+const AuthProvider: FC<PropsWithChildren<unknown>> = ({ children }) => {
   const { user } = useAuth()
   const { checkAuth, logout } = useActions()
-  const { pathname } = useRouter()
+
+  const pathname = usePathname()
 
   useEffect(() => {
     const accessToken = getAccessToken()
     if (accessToken) checkAuth()
   }, [])
   useEffect(() => {
-    const refreshToken = Cookies.get('refreshToken')
+    const refreshToken = Cookies.get(REFRESH_TOKEN)
     if (!refreshToken && user) logout()
   }, [pathname])
 
-  //идея в том чтоб грузить страницы нуждающиеся в авторизации только на клиенте
-  return isOnlyUser ? (
-    //динамично то есть работает только на клиенте
-    <DynamicCheckRole Component={{ isOnlyUser }}> {children}</DynamicCheckRole>
-  ) : (
-    // <>{children}</>
-    //это будет работать и на сервере
-    children
+  const router = useRouter()
+
+  const isProtectedRoute = protectedRoutes.some(
+    route => pathname?.startsWith(route)
   )
+  const isAdminRoute = pathname?.startsWith(ADMIN_PANNEL_URL)
+
+  if (!isProtectedRoute && !isAdminRoute) return children
+
+  if (user?.isAdmin) return children
+  if (user && isProtectedRoute) return children
+  
+  if (user && isAdminRoute) return <NotFound />
+
+  pathname !== '/auth' && router.replace('/auth')
+  return null
 }
 
 export default AuthProvider

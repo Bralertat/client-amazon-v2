@@ -1,26 +1,28 @@
-import Meta from '@/components/UI/Meta'
+'use client'
 import Catalog from '@/components/UI/catalog/Catalog'
 import Layout from '@/components/UI/layout/Layout'
 import { ProductService } from '@/services/product/product.service'
 import { useQuery } from '@tanstack/react-query'
 import { NextPage } from 'next'
-import { useRouter } from 'next/router'
+import { useRouter, useSearchParams } from 'next/navigation'
 
 const SearchPage: NextPage = () => {
-  const { query } = useRouter()
+  // const { query } = useRouter()
+  // const query = useSearchParams()
 
-  const { data } = useQuery(['search products', query.term], () =>
-    ProductService.getAll({ searchTerm: query.term as string })
+  const { data } = useQuery({
+    queryKey: ['search products', query.term],
+    queryFn: () => ProductService.getAll({ searchTerm: query.term as string })}
   )
   return (
-    <Meta title='Search'>
+
       <Layout>
         <Catalog
           products={data?.products || []}
           title={`Поиск по запросу "${query.term || ''}"`}
         />
       </Layout>
-    </Meta>
+
   )
 }
 

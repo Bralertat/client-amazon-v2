@@ -1,6 +1,7 @@
+'use client'
+
 import Heading from '@/components/UI/Heading'
 import Loader from '@/components/UI/Loader'
-import Meta from '@/components/UI/Meta'
 import Button from '@/components/UI/button/Button'
 import Field from '@/components/UI/input/Field'
 import { useActions } from '@/hooks/useActions'
@@ -31,7 +32,6 @@ const Auth: FC = () => {
     reset()
   }
   return (
-    <Meta title='Auth'>
       <section className='flex h-screen'>
         <form
           onSubmit={handleSubmit(onSubmit)}
@@ -85,7 +85,6 @@ const Auth: FC = () => {
           )}
         </form>
       </section>
-    </Meta>
   )
 }
 export default Auth

@@ -2,23 +2,22 @@ import { useActions } from '@/hooks/useActions'
 import { useAuth } from '@/hooks/useAuth'
 import { CategoryService } from '@/services/category.service'
 import { useQuery } from '@tanstack/react-query'
-import { useRouter } from 'next/router'
 import { FC } from 'react'
 import Loader from '../../Loader'
 import Link from 'next/link'
 import cn from 'clsx'
 import { FiLogOut } from 'react-icons/fi'
+import { usePathname, useRouter } from 'next/navigation'
 
 const Sidebar: FC = () => {
-  const { data, isLoading } = useQuery(
-    ['get categories'],
-    () => CategoryService.getAll(),
-    {
-      select: ({ data }) => data
-    }
-  )
+  const { data, isLoading } = useQuery({
+    queryKey: ['get categories'],
+    queryFn: () => CategoryService.getAll(),
+    select: ({ data }) => data
+  })
 
-  const { asPath } = useRouter()
+  // const { asPath } = useRouter() не работает в 14 nextjs
+  const asPath = usePathname()
   const { user } = useAuth()
   const { logout } = useActions()
 

@@ -6,29 +6,37 @@ import {
   PURGE,
   REGISTER,
   REHYDRATE,
-  persistReducer,
   persistStore
 } from 'redux-persist'
-import storage from 'redux-persist/lib/storage'
-import { userSlice } from './user/user.slice'
 import { cartSlice } from './cart/cart.slice'
+import { userSlice } from './user/user.slice'
 
-const persistConfig = {
-  key: 'amazon-v2',
-  storage,
-  whitelist: ['cart']
-}
+// устраняет ошибку писало в консоли так как persist не запускается на сервере
+const isClient = typeof window !== 'undefined'
 
-const rootReducer = combineReducers({
+const combinedReducers = combineReducers({
   cart: cartSlice.reducer,
-  // carousel: carouselSlice.reducer,
+  //carousel: carouselSlice.reducer,
   user: userSlice.reducer
 })
 
-const persistedReducer = persistReducer(persistConfig, rootReducer)
+let mainReducer = combinedReducers
+
+if (isClient) {
+  const { persistReducer } = require('redux-persist')
+  const storage = require('redux-persist/lib/storage').default
+
+  const persistConfig = {
+    key: 'amazon-v2',
+    storage,
+    whitelist: ['cart']
+  }
+
+  mainReducer = persistReducer(persistConfig, combinedReducers)
+}
 
 export const store = configureStore({
-  reducer: persistedReducer,
+  reducer: mainReducer,
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({
       serializableCheck: {
@@ -39,4 +47,4 @@ export const store = configureStore({
 
 export const persistor = persistStore(store)
 
-export type TypeRootState = ReturnType<typeof rootReducer>
+export type TypeRootState = ReturnType<typeof mainReducer>

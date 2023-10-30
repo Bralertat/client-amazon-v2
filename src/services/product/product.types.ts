@@ -18,8 +18,13 @@ export enum EnumProductSort {
 }
 
 export type TypeProductDataFilters = {
-  sort?: EnumProductSort
+  sort?: EnumProductSort | string
   searchTerm?: string
   page?: string | number
   perPage?: string | number
+  ratings?: string
+  minPrice?: string
+  maxPrice?: string
+  categoryId?: string
+
 }

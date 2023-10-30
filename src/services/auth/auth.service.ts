@@ -4,6 +4,7 @@ import axios from 'axios'
 import Cookies from 'js-cookie'
 import { saveToStorage } from './auth.helper'
 import { authAxios, guestAxios } from '@/api/api.interceptor'
+import { REFRESH_TOKEN } from '@/constants/token.constants'
 
 export const AuthService = {
   async main(type: 'login' | 'register', data: IEmailPassword) {
@@ -20,7 +21,7 @@ export const AuthService = {
 
   //не авторизованный получает токены
   async getNewTokens() {
-    const refreshToken = Cookies.get('refreshToken')
+    const refreshToken = Cookies.get(REFRESH_TOKEN)
     const response = await guestAxios.post<string, { data: IAuthResponse }>(
       '/auth/login/access-token',
       { refreshToken }

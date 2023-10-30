@@ -1,10 +1,10 @@
-import { FC } from 'react'
+'use client'
+
 import { IProduct } from '@/types/product.interface'
-import ProductItem from './product-item/ProductItem'
-import Loader from '../Loader'
+import { FC } from 'react'
 import Heading from '../Heading'
-import SortDropdown from './SortDropdown'
-import Button from '../button/Button'
+import Loader from '../Loader'
+import ProductItem from './product-item/ProductItem'
 
 interface ICatalog {
   products: IProduct[]

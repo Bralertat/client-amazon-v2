@@ -8,12 +8,11 @@ import { OrderService } from '@/services/order.service'
 import { convertPrice } from '@/utils/convertPrice'
 import { useMutation } from '@tanstack/react-query'
 import cn from 'clsx'
-import { useRouter } from 'next/router'
 import { FC } from 'react'
 import { RiShoppingCartLine } from 'react-icons/ri'
 import styles from './Cart.module.scss'
 import CartItem from './cart-item/CartItem'
-
+import { useRouter } from 'next/navigation'
 
 const Cart: FC = () => {
   const { isShow, setIsShow, ref } = useOutside(false)
@@ -21,24 +20,25 @@ const Cart: FC = () => {
   const { reset } = useActions()
   const { push } = useRouter()
 
-  const { mutate } = useMutation(
-    ['create order and payment'],
-    () =>
-      OrderService.place({
+  const { mutate } = useMutation({
+    // ['create order and payment'],
+    mutationFn: () => {
+      return OrderService.place({
         items: items.map(item => ({
           price: item.price,
           quantity: item.quantity,
           productId: item.product.id
         }))
-      }),
-    {
-      onSuccess({ data }) {
-        //нправильно тут чистить корзину
-        push(data.confirmation.confirmation_url).then(() => reset())
-      }
+      })
+    },
+    onSuccess({ data }) {
+      //нправильно тут чистить корзину
+      // push(data.confirmation.confirmation_url).then(() => reset())// в новом next не работает
+      push(data.confirmation.confirmation_url)// в новом next не работает, я так понял теперь это синхронная операция и только на клиенте
+      reset()
     }
-  )
-  //размонтировать нужно раньше чем закончится анимация 
+  })
+  //размонтировать нужно раньше чем закончится анимация
   //так как в конце анимации она возвращается на исходную
   const showDiv = useDelayUnmount(isShow, 250)
 
