@@ -1,8 +1,8 @@
 'use client'
 
 
-import Layout from '@/app/layout'
 import Catalog from '@/components/UI/catalog/Catalog'
+import Layout from '@/components/UI/layout/Layout'
 import { useProfile } from '@/hooks/useProfile'
 
 interface IFavorites {}

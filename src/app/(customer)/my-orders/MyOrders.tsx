@@ -1,10 +1,11 @@
 'use client'
 
 import Heading from '@/components/UI/Heading'
-import Layout from '@/app/layout'
+
 import { OrderService } from '@/services/order.service'
 import { useQuery } from '@tanstack/react-query'
 import { convertPrice } from '@/utils/convertPrice'
+import Layout from '@/components/UI/layout/Layout'
 
 interface IMyOrders {}
 

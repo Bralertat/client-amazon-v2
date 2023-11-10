@@ -8,21 +8,20 @@ import { useRouter, useSearchParams } from 'next/navigation'
 
 const SearchPage: NextPage = () => {
   // const { query } = useRouter()
-  // const query = useSearchParams()
+  const searchParams = useSearchParams()
 
   const { data } = useQuery({
-    queryKey: ['search products', query.term],
-    queryFn: () => ProductService.getAll({ searchTerm: query.term as string })}
-  )
+    queryKey: ['search products', searchParams?.get('term')],
+    queryFn: () =>
+      ProductService.getAll({ searchTerm: searchParams?.get('term') || '' })
+  })
   return (
-
-      <Layout>
-        <Catalog
-          products={data?.products || []}
-          title={`Поиск по запросу "${query.term || ''}"`}
-        />
-      </Layout>
-
+    <Layout>
+      <Catalog
+        products={data?.products || []}
+        title={`Поиск по запросу "${searchParams?.get('term') || ''}"`}
+      />
+    </Layout>
   )
 }
 

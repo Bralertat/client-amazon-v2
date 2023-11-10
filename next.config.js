@@ -6,6 +6,16 @@ const nextConfig = {
     APP_URL: process.env.APP_URL
   },
   images: { domains: ['loremflickr.com', 'picsum.photos'] },
+  // images: {
+  //   remotePatterns: [
+  //     {
+  //       protocol: 'http',
+  //       hostname: 'picsum.photos',
+  //       port: '',
+  //       pathname: '/**',
+  //     },
+  //   ],
+  // },
   async rewrites(){
     return [
       {
